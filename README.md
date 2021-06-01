@@ -10,7 +10,7 @@ Original idea: Starts from 25:00 (25mins), down counting to 0, trigger the buzze
               
               2. 4* 7 segment display to show seconds and minutes. 
               
-              3. 16Mhz xtal oscillator
+              3. 16Mhz xtal oscillator (or use xplained mini)
               
               4. 5V battery (use 6V AA battery + 7805 voltage regulator for long battery life)
               
