@@ -12,8 +12,13 @@ Original idea: Starts from 25:00 (25mins), down counting to 0, trigger the buzze
               
               3. 16Mhz xtal oscillator (or use xplained mini)
               
-              4. 5V battery (use 6V AA battery + 7805 voltage regulator for long battery life)
+              4. 4* AA battery as the power source, use 4148 diode as protection + provide some voltage drop so that 5V is fed in the microcontroller
               
-              5. push button
+              5. push button * 2
               
-              6. buzzer for alarm
+              6. buzzer
+              
+PCB made in SMT. Current functions: 
+    Start from 25mins, down counting to 0, and display "REST" with buzzer triggered. 
+    When manually press the reset button, it starts over again from 25mins. 
+    There is also an RST button to reset the microcontroller in case you get interrupted and want to start over. 
