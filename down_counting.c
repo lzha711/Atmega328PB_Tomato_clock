@@ -9,7 +9,7 @@
 #define F_CPU 16000000UL
 #define true 1
 #define false 0
-#define POV_delay 5 //15ms works fine too
+#define POV_delay 5 // set delay time 5ms
 
 // library
 #include <avr/io.h>
@@ -216,5 +216,6 @@ int main(void)
 			Display_REST();
 		}
     }
+	// return 0; // should never get here
 }
 
