@@ -30,8 +30,8 @@ static void buzz_sound(uint16_t buzz_length_ms, uint16_t buzz_delay_us);
 
 uint8_t minutes = 25;
 uint8_t seconds = 0;
-bool need_reset_flag = false; 
-bool song_flag = false; 
+bool need_reset_flag = false;
+bool song_flag = false;
 
 //a-g 7 segment values for each number
 uint8_t seven_seg_digits[10][7] = {
@@ -61,18 +61,17 @@ void WriteDisplays(uint8_t digit, uint8_t displaynum){
 	
 	// display select
 	if (displaynum == 0){
-		PORTB &= ~(1<<PB2); //select Sec2 display
-		PORTB |= (1<<PB3) | (1<<PB4) | (1<<PB5); //disable all other modules
-	}else if (displaynum == 1){
-		PORTB &= ~(1<<PB3); //select Sec1 display
-		PORTB |= (1<<PB2) | (1<<PB4) | (1<<PB5); //disable all other modules
-	}else if (displaynum == 2){
-		PORTB &= ~(1<<PB4); //select Min2
-		PORTB |= (1<<PB0); //dp on when min2 is selected
-		PORTB |= (1<<PB2) | (1<<PB3) | (1<<PB5); //disable all other modules
-	}else if (displaynum == 3){
-		PORTB &= ~(1<<PB5); //select Min1
-		PORTB |= (1<<PB2) | (1<<PB3) | (1<<PB4); //disable all other modules
+		PORTC &= ~(1<<PC2); //select Sec2 display
+		PORTC |= (1<<PC3) | (1<<PC4) | (1<<PC5); //disable all other modules
+		}else if (displaynum == 1){
+		PORTC &= ~(1<<PC3); //select Sec1 display
+		PORTC |= (1<<PC2) | (1<<PC4) | (1<<PC5); //disable all other modules
+		}else if (displaynum == 2){
+		PORTC &= ~(1<<PC4); //select Min2
+		PORTC |= (1<<PC2) | (1<<PC3) | (1<<PC5); //disable all other modules
+		}else if (displaynum == 3){
+		PORTC &= ~(1<<PC5); //select Min1
+		PORTC |= (1<<PC2) | (1<<PC3) | (1<<PC4); //disable all other modules
 	}
 	
 	// assign display number
@@ -88,17 +87,17 @@ void WriteWords(uint8_t word, uint8_t displaynum){
 	
 	// display select
 	if (displaynum == 0){
-		PORTB &= ~(1<<PB2); //select Sec2 display
-		PORTB |= (1<<PB3) | (1<<PB4) | (1<<PB5); //disable all other modules
+		PORTC &= ~(1<<PC2); //select Sec2 display
+		PORTC |= (1<<PC3) | (1<<PC4) | (1<<PC5); //disable all other modules
 		}else if (displaynum == 1){
-		PORTB &= ~(1<<PB3); //select Sec1 display
-		PORTB |= (1<<PB2) | (1<<PB4) | (1<<PB5); //disable all other modules
+		PORTC &= ~(1<<PC3); //select Sec1 display
+		PORTC |= (1<<PC2) | (1<<PC4) | (1<<PC5); //disable all other modules
 		}else if (displaynum == 2){
-		PORTB &= ~(1<<PB4); //select Min2
-		PORTB |= (1<<PB2) | (1<<PB3) | (1<<PB5); //disable all other modules
+		PORTC &= ~(1<<PC4); //select Min2
+		PORTC |= (1<<PC2) | (1<<PC3) | (1<<PC5); //disable all other modules
 		}else if (displaynum == 3){
-		PORTB &= ~(1<<PB5); //select Min1
-		PORTB |= (1<<PB2) | (1<<PB3) | (1<<PB4); //disable all other modules
+		PORTC &= ~(1<<PC5); //select Min1
+		PORTC |= (1<<PC2) | (1<<PC3) | (1<<PC4); //disable all other modules
 	}
 	
 	// assign display number
@@ -111,46 +110,46 @@ void WriteWords(uint8_t word, uint8_t displaynum){
 // figure out what to display on sec2 and sec1
 void CalculateSeconds(void){
 	if (seconds/10 == 0 && seconds < 10){
-			WriteDisplays(0,1);
-			_delay_ms(POV_delay);
-			WriteDisplays(seconds,0);
-			_delay_ms(POV_delay);
-	}else if (seconds%10 != 0){
-			WriteDisplays(seconds/10,1);
-			_delay_ms(POV_delay);
-			WriteDisplays(seconds%10,0);
-			_delay_ms(POV_delay);
-	}else if (seconds%10 == 0){
-			WriteDisplays(seconds/10,1);
-			_delay_ms(POV_delay);
-			WriteDisplays(0,0);
-			_delay_ms(POV_delay);
-	} 
+		WriteDisplays(0,1);
+		_delay_ms(POV_delay);
+		WriteDisplays(seconds,0);
+		_delay_ms(POV_delay);
+		}else if (seconds%10 != 0){
+		WriteDisplays(seconds/10,1);
+		_delay_ms(POV_delay);
+		WriteDisplays(seconds%10,0);
+		_delay_ms(POV_delay);
+		}else if (seconds%10 == 0){
+		WriteDisplays(seconds/10,1);
+		_delay_ms(POV_delay);
+		WriteDisplays(0,0);
+		_delay_ms(POV_delay);
+	}
 }
 
 // figure out what to display on min2 and min1
 void CalculateMinutes(void){
-		if (minutes/10 == 0 && minutes < 10){
-			WriteDisplays(0,3);
-			_delay_ms(POV_delay);
-			WriteDisplays(minutes,2);
-			_delay_ms(POV_delay);
+	if (minutes/10 == 0 && minutes < 10){
+		WriteDisplays(0,3);
+		_delay_ms(POV_delay);
+		WriteDisplays(minutes,2);
+		_delay_ms(POV_delay);
 		}else if (minutes%10 != 0){
-			WriteDisplays(minutes/10,3);
-			_delay_ms(POV_delay);
-			WriteDisplays(minutes%10,2);
-			_delay_ms(POV_delay);
+		WriteDisplays(minutes/10,3);
+		_delay_ms(POV_delay);
+		WriteDisplays(minutes%10,2);
+		_delay_ms(POV_delay);
 		}else if (minutes%10 == 0){
-			WriteDisplays(minutes/10,3);
-			_delay_ms(POV_delay);
-			WriteDisplays(0,2);
-			_delay_ms(POV_delay);
-	    }
+		WriteDisplays(minutes/10,3);
+		_delay_ms(POV_delay);
+		WriteDisplays(0,2);
+		_delay_ms(POV_delay);
+	}
 }
 
 void Display_REST(void){
 	WriteWords(3,0); //T at sec2
-	_delay_ms(POV_delay); 
+	_delay_ms(POV_delay);
 	WriteWords(2,1); //S at sec1
 	_delay_ms(POV_delay);
 	WriteWords(1,2); //E at min2
@@ -161,16 +160,16 @@ void Display_REST(void){
 
 void IO_init(void){
 	DDRD = 0b11111110; //set PD1-PD7 as output
-	DDRB = 0b00111111; //set PB0-PB5 as output
-	DDRC = 0b00001100; //set PC2 and PC3 as buzzer output, others are input
+	DDRB |= (1<<PB1); //set PB1 as timer square wave output
+	DDRC = 0b00111101; //set PC2-PC5 as chip select output, PC0 as buzzer output
 	PORTC |= (1<<PC1); //use internal pull-up resistor
 }
 
 void TIMER1_init(void){
-    TCCR1A = 0b00000000; //normal mode
+	TCCR1A = 0b00000000; //normal mode
 	TCCR1B = 0b00001101; //CTC mode, clk_t0 = clk_io/1024
-	//OCR1A = 0x3D08; // trigger interrupt every 1s
-	OCR1A = 0x0024; //for quick testing
+	OCR1A = 0x3D08; // trigger interrupt every 1s
+	// OCR1A = 0x0024; //for quick testing
 	TIMSK1 = 0b00000010; // set bit OCIE1A, timer/counter1 output compare match A interrupt enable
 	PORTB |= (1<<PB1); //set OC1A as output, doesn't matter input or output
 }
@@ -191,10 +190,10 @@ ISR(TIMER1_COMPA_vect){	//store value here only
 			need_reset_flag = true;
 		}
 		seconds--;
-	}else{
+		}else{
 		// no counting at all
 		minutes = 25;
-		seconds = 0; 
+		seconds = 0;
 	}
 }
 
@@ -209,14 +208,14 @@ static void buzz_sound(uint16_t buzz_length_ms, uint16_t buzz_delay_us)
 		buzz_length_us -= buzz_delay_us*2;
 
 		/* toggle the buzzer at various speeds */
-		PORTC &= ~(1<<PC2);
-		PORTC |= (1<<PC3);
+		PORTC &= ~(1<<PC0);
+		PORTC |= (1<<PC0);
 		//		_delay_us((double) buzz_delay_us);
 		z= buzz_delay_us;
 		while (--z){};
 
-		PORTC |= (1<<PC2);
-		PORTC &= ~(1<<PC3);
+		PORTC |= (1<<PC0);
+		PORTC &= ~(1<<PC0);
 		//		_delay_us((double) buzz_delay_us);
 		z= buzz_delay_us;
 		while (--z){};
@@ -226,15 +225,15 @@ static void buzz_sound(uint16_t buzz_length_ms, uint16_t buzz_delay_us)
 
 int main(void)
 {
-   // uint8_t pin, digit=0;
+	// uint8_t pin, digit=0;
 	IO_init();
 	TIMER1_init();
 	sei(); //enable interrupt
 	song_flag = true; //initialize song flag true
 
-    while (1) 
-    {	
-		if (!(PINC & (1<<PC1))) //if PC1 input is low
+	while (1)
+	{
+		if (!(PINC & (1<<PC1))) //if PC1 input is low, i.e, if restart button is pressed
 		{
 			need_reset_flag = false;
 			song_flag = true;
@@ -244,6 +243,7 @@ int main(void)
 			//display time
 			CalculateSeconds();
 			CalculateMinutes();
+			
 		}else {
 			//display REST
 			Display_REST();
@@ -260,5 +260,6 @@ int main(void)
 				song_flag = false; //disable buzzer sound
 			}
 		}
-    }
+	}
 }
+
